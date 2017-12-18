@@ -21,32 +21,27 @@
 -- Explain. 
 
 abs1 :: Float -> Float
-abs1 a = res where
-    res | (>=) a 0 = a
-        | otherwise = (-a)
+abs1 a 
+    | a >= 0 = a
+    | otherwise = (-a)
 
 square1 :: Float -> Float
-square1 a = (*) a a
+square1 a = a * a
 
 -- (define (good-enough? guess x)
 --   (< (abs (- (square guess) x)) 0.001))
 goodEnough :: Float -> Float -> Bool
-goodEnough guess x = res where
-    res = (<)
-        (abs1 ((-) (square1 guess) x))
-        0.001
+goodEnough guess x  = abs1(square1(guess) - x) < 0.001
 
 -- (define (average x y)
 --   (/ (+ x y) 2))
 average :: Float -> Float -> Float
-average x y = res where
-    res = (/) ((+) x y) 2
+average x y = (x + y) / 2
 
 -- (define (improve guess x)
 --   (average guess (/ x guess)))
 improve :: Float -> Float -> Float
-improve guess x = res where
-    res = average guess ((/) x guess)
+improve guess x = average guess (x / guess)
 
 -- (define (sqrt-iter guess x)
 --   (if (good-enough? guess x)
@@ -54,18 +49,17 @@ improve guess x = res where
 --       (sqrt-iter (improve guess x)
 --                  x)))
 sqrtIter :: Float -> Float -> Float
-sqrtIter guess x = res where
-    res = if goodEnough guess x
-        then guess
-        else sqrtIter (improve guess x) x
+sqrtIter guess x
+    | goodEnough guess x = guess
+    | otherwise = sqrtIter (improve guess x) x
 
 -- (define (new-if predicate then-clause else-clause)
 --   (cond (predicate then-clause)
 --       (else else-clause)))
-newIf :: Bool -> (() -> Float) -> (() -> Float) -> Float
-newIf predicate thenClause elseClause = res where
-    res | predicate = thenClause()
-        | otherwise = elseClause()
+newIf :: Bool -> Float -> Float -> Float
+newIf predicate thenClause elseClause
+    | predicate = thenClause
+    | otherwise = elseClause
 
 -- (define (sqrt-iter guess x)
 --   (new-if (good-enough? guess x)
@@ -73,11 +67,10 @@ newIf predicate thenClause elseClause = res where
 --       (sqrt-iter (improve guess x)
 --          x)))
 newSqrtIter :: Float -> Float -> Float
-newSqrtIter guess x = res where
-    res = newIf (goodEnough guess x)
-        (\_ -> guess)
-        (\_ -> (newSqrtIter (improve guess x) x))
-
+newSqrtIter guess x =
+    newIf (goodEnough guess x)
+        guess
+        (newSqrtIter (improve guess x) x)
 
 
 main :: IO () 
@@ -85,10 +78,10 @@ main = do
     print $ sqrtIter 1 2
 
     print "(new-if (= 2 3) 0 5)"
-    print $ newIf ((==) 2 3) (\_ -> 0) (\_ -> 5)
+    print $ newIf (2 == 3) 0 5
 
     print "(new-if (= 1 1) 0 5)"
-    print $ newIf ((==) 1 1) (\_ -> 0) (\_ -> 5)
+    print $ newIf (1 == 1) 0 5
 
     print $ newSqrtIter 1 2
 
