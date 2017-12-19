@@ -12,56 +12,48 @@
 -- this work better for small and large numbers? 
 
 abs1 :: Float -> Float
-abs1 a = res where
-    res | (>=) a 0 = a
-        | otherwise = (-a)
+abs1 a
+    | a >= 0 = a
+    | otherwise = (-a)
 
 square1 :: Float -> Float
-square1 a = (*) a a
+square1 a = a * a
 
 -- (define (average x y)
 --   (/ (+ x y) 2))
 average :: Float -> Float -> Float
-average x y = res where
-    res = (/) ((+) x y) 2
+average x y = (x + y) / 2
 
 -- (define (improve guess x)
 --   (average guess (/ x guess)))
 improve :: Float -> Float -> Float
-improve guess x = res where
-    res = average guess ((/) x guess)
+improve guess x = average guess (x / guess)
 
 -- (define (good-enough? guess x)
 --   (< (abs (- (square guess) x)) 0.001))
 goodEnough0 :: Float -> Float -> Float -> Bool
-goodEnough0 _ guess x = res where
-    res = (<)
-        (abs1 ((-) (square1 guess) x))
-        0.001
+goodEnough0 _ guess x = (abs1 ((square1 guess) - x)) < 0.001
 
 goodEnough1 :: Float -> Float -> Float -> Bool
-goodEnough1 _ guess x = res where
-    res = (<)
-        (abs1 ((-) (square1 guess) x))
-        ((*) 0.001 guess)
+goodEnough1 _ guess x = (abs1 ((square1 guess) - x)) < (0.001 * guess)
 
 goodEnough2 :: Float -> Float -> Float -> Bool
-goodEnough2 guessPrev guess x = res where
-    res1 = goodEnough1 guessPrev guess x
-    diffGuess = abs1 ((-) guessPrev guess )
-    res = (&&) res1
-        ((<) diffGuess ((*) 0.001 guess))
+goodEnough2 guessPrev guess x
+    | goodEnough1 guessPrev guess x =
+            diffGuess < (0.001 * guess)
+    | otherwise = False
+    where
+    diffGuess = abs1 (guessPrev - guess)
 
 sqrtIter :: (Float -> Float -> Float -> Bool) -> Float -> Float -> Float -> Float
-sqrtIter goodEnough guessPrev guess x = res where
-    res = if goodEnough guessPrev guess x
-        then guess
-        else sqrtIter goodEnough guess (improve guess x) x
+sqrtIter goodEnough guessPrev guess x
+    | goodEnough guessPrev guess x = guess
+    | otherwise = sqrtIter goodEnough guess (improve guess x) x
 
 check :: Float -> Float -> Float
-check x sroot = res where
-    expected = (*) sroot sroot
-    res = abs1 ((-) expected x)
+check x sroot = abs1 (expected - x)
+    where
+    expected = sroot * sroot
 
 
 main :: IO ()
