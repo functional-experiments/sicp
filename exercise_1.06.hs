@@ -31,7 +31,7 @@ square1 a = a * a
 -- (define (good-enough? guess x)
 --   (< (abs (- (square guess) x)) 0.001))
 goodEnough :: Float -> Float -> Bool
-goodEnough guess x  = abs1(square1(guess) - x) < 0.001
+goodEnough guess x = abs1 (square1 (guess) - x) < 0.001
 
 -- (define (average x y)
 --   (/ (+ x y) 2))
