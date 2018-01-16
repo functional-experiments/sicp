@@ -23,9 +23,9 @@ p :: Int
 p = p
 
 test :: Int -> Int -> Int
-test x y = res where
-    res | (==) x 0 = 0
-        | otherwise = y
+test x y
+    | 0 == x = 0
+    | otherwise = y
 
 
 main :: IO ()
