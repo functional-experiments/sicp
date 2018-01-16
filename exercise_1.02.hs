@@ -1,6 +1,7 @@
 
 -- Exercise 1.2.
 -- Translate the following expression into prefix form 
+-- https://mitpress.mit.edu/sicp/full-text/book/ch1-Z-G-3.gif
 
 
 main :: IO ()
