@@ -8,10 +8,11 @@
 --   ((if (> b 0) + -) a b))
 
 aPlusAbsB :: Int -> Int -> Int
-aPlusAbsB a b = res where
-    op | (>) b 0 = (+)
-        | otherwise = (-)
-    res = op a b
+aPlusAbsB a b = op a b
+    where
+        op
+            | b > 0 = (+)
+            | otherwise = (-)
 
 main :: IO ()
 main = do

@@ -14,13 +14,13 @@ cmp1 a b
 square1 :: Int -> Int
 square1 a = a * a
 
+square2Larger :: [Int] -> [Int]
+square2Larger list = fmap square1 (take 2 sorted)
+   where sorted = sortBy cmp1 list
+
 sqsum1 :: Int -> Int -> Int -> Int
-sqsum1 a b c = res where
-    list = [a, b, c]
-    sorted = sortBy cmp1 list
-    larger = take 2 sorted
-    squared = fmap square1 larger
-    res = foldr (+) 0 squared
+sqsum1 a b c = foldr (+) 0 squared
+    where squared = square2Larger [a, b, c]
 
 
 main :: IO ()
