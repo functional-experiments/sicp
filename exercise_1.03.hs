@@ -6,12 +6,13 @@
 import Data.List
 
 cmp1 :: Int -> Int -> Ordering 
-cmp1 a b | a < b = GT
+cmp1 a b
+    | a < b = GT
     | a > b = LT
     | otherwise = EQ
 
 square1 :: Int -> Int
-square1 a = (*) a a
+square1 a = a * a
 
 sqsum1 :: Int -> Int -> Int -> Int
 sqsum1 a b c = res where
