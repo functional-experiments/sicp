@@ -24,14 +24,14 @@ dec1 :: Int -> Int
 dec1 a = a - 1
 
 plus1 :: Int -> Int -> Int
-plus1 a b = res where
-    res | (==) a 0 = b
-        | otherwise = inc1 (plus1 (dec1 a) b)
+plus1 a b
+    | 0 == a = b
+    | otherwise = inc1 (plus1 (dec1 a) b)
 
 plus2 :: Int -> Int -> Int
-plus2 a b = res where
-    res | (==) a 0 = b
-        | otherwise = plus2 (dec1 a) (inc1 b)
+plus2 a b
+    | 0 == a = b
+    | otherwise = plus2 (dec1 a) (inc1 b)
 
 
 main :: IO ()
