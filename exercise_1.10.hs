@@ -11,33 +11,29 @@
 --                  (A x (- y 1))))))
 
 a1 :: Int -> Int -> Int
-a1 x y = res where
-    res | (==) y 0 = 0
-        | (==) x 0 = (*) 2 y
-        | (==) y 1 = 2
-        | otherwise = a1 ((-) x 1) (a1 x ((-) y 1))
+a1 x y 
+    | 0 == y = 0
+    | 0 == x = (*) 2 y
+    | 1 == y = 2
+    | otherwise = a1 (x - 1) (a1 x (y - 1))
         
 -- Consider the following procedures, where A is the procedure defined above:
 --
 -- (define (f n) (A 0 n))
 f :: Int -> Int
-f n = res where
-    res = a1 0 n
+f n = a1 0 n
 
 -- (define (g n) (A 1 n))
 g :: Int -> Int
-g n = res where
-    res = a1 1 n
+g n = a1 1 n
 
 -- (define (h n) (A 2 n))
 h :: Int -> Int
-h n = res where
-    res = a1 2 n
+h n = a1 2 n
 
 -- (define (k n) (* 5 n n))
 k :: Int -> Int
-k n = res where
-    res = foldr (*) 1 [5, n, n]
+k n = foldr (*) 1 [5, n, n]
 
 
 main :: IO ()
