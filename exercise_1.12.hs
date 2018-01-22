@@ -10,11 +10,11 @@
 
 nextAdd :: [Int] -> Int -> Int
 nextAdd list idx
-    | length list - 1 == idx = list !! idx
-    | otherwise = list !! idx + list !! (idx + 1)
+    | idx < length list - 1 = list !! idx + list !! (idx + 1)
+    | otherwise = last list
 
 ptRow :: [Int] -> [Int]
-ptRow prevRow = 1 : fmap (\idx -> nextAdd prevRow idx) [0 .. length prevRow - 1]
+ptRow prevRow = 1 : [nextAdd prevRow idx | idx <- [0 .. length prevRow - 1]]
 
 ptTriangle :: [[Int]] -> Int -> [[Int]]
 ptTriangle triangle n
