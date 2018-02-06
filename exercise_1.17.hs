@@ -32,14 +32,14 @@ halve a = div a 2
 isEven :: Int -> Bool
 isEven n = 0 == rem n 2
 
-multLog :: Int -> Int -> Int -> Int
-multLog p a b
-    | 0 == b = p
-    | isEven b = multLog p (double a) (halve b)
-    | otherwise = multLog (p + a) a (b - 1)
+multLog :: Int -> Int -> Int
+multLog a b
+    | 0 == b = 0
+    | isEven b = multLog (double a) (halve b)
+    | otherwise = a + multLog a (b - 1)
 
 
 main :: IO ()
 main = do
     print $ multLinear 3 5
-    print $ multLog 0 3 5
+    print $ multLog 3 5
